@@ -14,43 +14,68 @@ addTaskBtn.addEventListener("click", function () {
 
     const newTask = document.createElement("li");
 
-    // Create the checkbox
+    // Create the checkbox and task label
     const taskLabel = document.createElement("label");
     taskLabel.className = "task-label";
 
     const completedCheckbox = document.createElement("input");
     completedCheckbox.type = "checkbox";
 
-    // Create a container for task name and status
+    // Create the task information area
     const taskInfo = document.createElement("div");
     taskInfo.className = "task-info";
 
-    // Create the task name
     const taskName = document.createElement("span");
     taskName.textContent = taskText;
 
-    // Create the Completed label
     const statusText = document.createElement("small");
     statusText.textContent = "Completed";
     statusText.className = "status-text";
     statusText.hidden = true;
 
-    // Handle task completion
+    // Handle completed status
     completedCheckbox.addEventListener("change", function () {
-
         const isCompleted = completedCheckbox.checked;
 
         taskName.classList.toggle("completed", isCompleted);
         statusText.hidden = !isCompleted;
-
     });
 
-    // Put the task name and status together
     taskInfo.appendChild(taskName);
     taskInfo.appendChild(statusText);
 
     taskLabel.appendChild(completedCheckbox);
     taskLabel.appendChild(taskInfo);
+
+    // Create a container for action buttons
+    const taskActions = document.createElement("div");
+    taskActions.className = "task-actions";
+
+    // Create the Edit button
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.className = "edit-btn";
+
+    editBtn.addEventListener("click", function () {
+
+        const updatedText = prompt(
+            "Edit your task:",
+            taskName.textContent
+        );
+
+        if (updatedText === null) {
+            return;
+        }
+
+        const newText = updatedText.trim();
+
+        if (newText === "") {
+            alert("Task cannot be empty!");
+            return;
+        }
+
+        taskName.textContent = newText;
+    });
 
     // Create the Delete button
     const deleteBtn = document.createElement("button");
@@ -61,9 +86,13 @@ addTaskBtn.addEventListener("click", function () {
         newTask.remove();
     });
 
-    // Add everything to the task box
+    // Put both buttons together
+    taskActions.appendChild(editBtn);
+    taskActions.appendChild(deleteBtn);
+
+    // Build the complete task
     newTask.appendChild(taskLabel);
-    newTask.appendChild(deleteBtn);
+    newTask.appendChild(taskActions);
 
     taskList.appendChild(newTask);
 
