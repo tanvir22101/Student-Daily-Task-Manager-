@@ -99,9 +99,27 @@ function renderTasks() {
         newTask.appendChild(taskLabel);
         newTask.appendChild(taskActions);
 
+      
         taskList.appendChild(newTask);
     });
+
+    // Calculate task statistics
+    const totalCount = tasks.length;
+
+    const completedCount = tasks.filter(function (task) {
+        return task.completed;
+    }).length;
+
+    const pendingCount = totalCount - completedCount;
+
+    // Update dashboard numbers
+    document.getElementById("totalTasks").textContent = totalCount;
+
+    document.getElementById("completedTasks").textContent = completedCount;
+
+    document.getElementById("pendingTasks").textContent = pendingCount;
 }
+
 
 // Add a new task
 addTaskBtn.addEventListener("click", function () {
